@@ -1,6 +1,6 @@
-const Blog = ({ blog }) => {
+const Blog = ({ blog, key }) => {
   return (
-    <div>
+    <div key={key}>
       {blog.title} {blog.author}
     </div>
   );

@@ -52,7 +52,10 @@ const AddBlog = ({
           onChange={(e) => setLikes(e.target.value)}
         />
       </div>
-      <button type="submit">Confirm</button>
+
+      <button className="border px-2 py-1 rounded" type="submit">
+        Confirm
+      </button>
     </form>
   );
 };

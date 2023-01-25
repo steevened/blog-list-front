@@ -18,7 +18,7 @@ const create = async (newObject) => {
   };
 
   const response = await axios.post(baseUrl, newObject, config);
-  return res.data;
+  return response.data;
 };
 
 export default { getAll, setToken, create };
