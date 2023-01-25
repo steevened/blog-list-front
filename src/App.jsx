@@ -15,18 +15,18 @@ function App() {
   const [user, setUser] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [addedMessage, setAddedMessage] = useState(null);
-
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [url, setUrl] = useState('');
-  const [likes, setLikes] = useState('');
+  const [buttonIndex, setButtonIndex] = useState(-1);
+  const [detailsShowed, setDetailsShowed] = useState(false);
 
   const blogFormRef = useRef();
 
-  console.log(blogFormRef);
-
   useEffect(() => {
-    blogServices.getAll().then((blogs) => setBlogs(blogs));
+    const fetchData = async () => {
+      const result = await blogServices.getAll();
+      setBlogs(result);
+    };
+    fetchData();
+    // blogServices.getAll().then((blogs) => setBlogs(blogs));
   }, []);
 
   useEffect(() => {
@@ -37,6 +37,14 @@ function App() {
       blogServices.setToken(user.token);
     }
   }, []);
+
+  const handleButtonIndex = (i) => {
+    if (buttonIndex === i) {
+      setButtonIndex(-1);
+    } else {
+      setButtonIndex(i);
+    }
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -60,21 +68,13 @@ function App() {
     }
   };
 
-  const addBlog = async (e) => {
-    e.preventDefault();
-
-    const blogObject = { title, author, url, likes };
+  const addBlog = async (blogObject) => {
     blogFormRef.current.toggleVisibility();
     await blogServices.create(blogObject);
     setBlogs((prevBlogs) => [...prevBlogs, blogObject]);
-    setAddedMessage(`A new blog ${title} by ${author} added`);
     setTimeout(() => {
       setAddedMessage(null);
     }, 5000);
-    setTitle('');
-    setAuthor('');
-    setUrl('');
-    setLikes('');
   };
 
   return (
@@ -105,25 +105,16 @@ function App() {
             Log out
           </button>
           <Toggeable buttonLabel="New Blog" ref={blogFormRef}>
-            <AddBlog
-              addBlog={addBlog}
-              title={title}
-              setTitle={setTitle}
-              author={author}
-              setAuthor={setAuthor}
-              url={url}
-              setUrl={setUrl}
-              likes={likes}
-              setLikes={setLikes}
-            />
+            <AddBlog addBlog={addBlog} setAddedMessage={setAddedMessage} />
           </Toggeable>
-          {
-            <ul>
-              {blogs.map((blog) => (
-                <Blog key={blog.id} blog={blog} />
-              ))}
-            </ul>
-          }
+
+          <Blog
+            blogs={blogs}
+            setDetailsShowed={setDetailsShowed}
+            setButtonIndex={setButtonIndex}
+            buttonIndex={buttonIndex}
+            handleButtonIndex={handleButtonIndex}
+          />
         </>
       )}
     </div>

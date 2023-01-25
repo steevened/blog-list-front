@@ -1,18 +1,24 @@
 import { useState } from 'react';
 
-const AddBlog = ({
-  addBlog,
-  title,
-  setTitle,
-  author,
-  setAuthor,
-  url,
-  setUrl,
-  likes,
-  setLikes,
-}) => {
+const AddBlog = ({ addBlog, setAddedMessage }) => {
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [url, setUrl] = useState('');
+  const [likes, setLikes] = useState('');
+
+  const createBlog = async (e) => {
+    e.preventDefault();
+    const blogObject = { title, author, url, likes };
+    await addBlog(blogObject);
+    setTitle('');
+    setAuthor('');
+    setUrl('');
+    setLikes('');
+    setAddedMessage(`A new blog ${title} by ${author} added`);
+  };
+
   return (
-    <form onSubmit={addBlog}>
+    <form onSubmit={createBlog}>
       <h2>Add a Blog</h2>
       <div>
         <label htmlFor="title">Title</label>
