@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 const AddBlog = ({
   addBlog,
   title,
@@ -54,7 +56,7 @@ const AddBlog = ({
       </div>
 
       <button className="border px-2 py-1 rounded" type="submit">
-        Confirm
+        Create
       </button>
     </form>
   );

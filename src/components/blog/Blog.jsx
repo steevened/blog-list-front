@@ -1,8 +1,8 @@
-const Blog = ({ blog, key }) => {
+const Blog = ({ blog }) => {
   return (
-    <div key={key}>
+    <li>
       {blog.title} {blog.author}
-    </div>
+    </li>
   );
 };
 

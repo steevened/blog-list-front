@@ -6,6 +6,7 @@ import Blog from './components/blog/Blog';
 import Login from './components/login/Login';
 import loginService from './services/login';
 import AddBlog from './components/blog/AddBlog';
+import Toggeable from './components/Toggeable';
 
 function App() {
   const [blogs, setBlogs] = useState([]);
@@ -98,17 +99,19 @@ function App() {
           >
             Log out
           </button>
-          <AddBlog
-            addBlog={addBlog}
-            title={title}
-            setTitle={setTitle}
-            author={author}
-            setAuthor={setAuthor}
-            url={url}
-            setUrl={setUrl}
-            likes={likes}
-            setLikes={setLikes}
-          />
+          <Toggeable buttonLabel="New Blog">
+            <AddBlog
+              addBlog={addBlog}
+              title={title}
+              setTitle={setTitle}
+              author={author}
+              setAuthor={setAuthor}
+              url={url}
+              setUrl={setUrl}
+              likes={likes}
+              setLikes={setLikes}
+            />
+          </Toggeable>
           {
             <ul>
               {blogs.map((blog) => (
