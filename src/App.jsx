@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import reactLogo from './assets/react.svg';
 import './App.css';
 import blogServices from './services/blog';
@@ -20,6 +20,10 @@ function App() {
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
   const [likes, setLikes] = useState('');
+
+  const blogFormRef = useRef();
+
+  console.log(blogFormRef);
 
   useEffect(() => {
     blogServices.getAll().then((blogs) => setBlogs(blogs));
@@ -60,8 +64,9 @@ function App() {
     e.preventDefault();
 
     const blogObject = { title, author, url, likes };
+    blogFormRef.current.toggleVisibility();
     await blogServices.create(blogObject);
-    setBlogs(blogs.concat(blogObject));
+    setBlogs((prevBlogs) => [...prevBlogs, blogObject]);
     setAddedMessage(`A new blog ${title} by ${author} added`);
     setTimeout(() => {
       setAddedMessage(null);
@@ -99,7 +104,7 @@ function App() {
           >
             Log out
           </button>
-          <Toggeable buttonLabel="New Blog">
+          <Toggeable buttonLabel="New Blog" ref={blogFormRef}>
             <AddBlog
               addBlog={addBlog}
               title={title}
