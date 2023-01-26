@@ -26,7 +26,6 @@ function App() {
       setBlogs(result);
     };
     fetchData();
-    // blogServices.getAll().then((blogs) => setBlogs(blogs));
   }, []);
 
   useEffect(() => {
@@ -77,6 +76,19 @@ function App() {
     }, 5000);
   };
 
+  const handleLike = async (blog) => {
+    const updatedBlog = {
+      ...blog,
+      likes: blog.likes + 1,
+    };
+    await blogServices.update(blog.id, updatedBlog);
+    setBlogs((prevBlogs) =>
+      prevBlogs.map((b) => (b.id === blog.id ? updatedBlog : b))
+    );
+  };
+
+  console.log(blogs[0]);
+
   return (
     <div className="h-full bg-stone-800 min-h-screen text-white">
       <h2>Blogs</h2>
@@ -114,6 +126,7 @@ function App() {
             setButtonIndex={setButtonIndex}
             buttonIndex={buttonIndex}
             handleButtonIndex={handleButtonIndex}
+            handleLike={handleLike}
           />
         </>
       )}

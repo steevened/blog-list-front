@@ -6,6 +6,7 @@ const Blog = ({
   setDetailsShowed,
   setButtonIndex,
   handleButtonIndex,
+  handleLike,
 }) => {
   return (
     <ul className="flex flex-col gap-2 mt-5">
@@ -19,7 +20,9 @@ const Blog = ({
                   <p>{blog.url}</p>
                   <div className="flex w-1/2  justify-between">
                     <p>{blog.likes}</p>
-                    <button className="border">Like</button>
+                    <button onClick={() => handleLike(blog)} className="border">
+                      Like
+                    </button>
                   </div>
                   <p>{blog.author}</p>
                 </>
